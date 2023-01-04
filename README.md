@@ -39,10 +39,10 @@
 
 ## Installation
 
-You can download the latest release in the releases page, and install it with pip:
+You can install it with pip:
 
 ```bash
-pip install /path/to/emailbuilder-*.whl
+pip install emailbuilder
 ```
 
 &nbsp;
@@ -284,7 +284,6 @@ A `<div>` element. Items can be appended with the `append(item)` method, just li
 ## To-Do
 
 - [x] Write basic usage guide
-- [ ] Improve plain text function
+- [ ] Add table components
 - [ ] Document `style` argument
-- [ ] Improve documentation
-- [ ] Upload to pypi
+- [ ] Improve plain text function
