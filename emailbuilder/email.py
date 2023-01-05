@@ -9,7 +9,7 @@ from copy import deepcopy
 
 
 class EMail:
-  def __init__(self, subject: str = "", sender: str = "", receiver=None, style=None) -> None:
+  def __init__(self, subject: str = "", sender: str = "", receiver=None, style=None):
     if style is None:
       style = {}
 
@@ -46,7 +46,7 @@ class EMail:
     self.style = {**default_style, **style}
     self.attachments = []
 
-  def attach(self, item, mime, type, extension, cid=None) -> None:
+  def attach(self, item, mime, type, extension, cid=None):
     _uuid = str(hash(item))
     if cid is None:
       cid = make_msgid()[1:-1]
@@ -64,7 +64,7 @@ class EMail:
     }
     self.attachments.append(_attachment)
 
-  def append(self, item) -> None:
+  def append(self, item):
     self.items.append(item)
 
   def html(self) -> str:
