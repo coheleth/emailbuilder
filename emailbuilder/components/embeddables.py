@@ -18,7 +18,13 @@ class Image(Component):
     with open(self.src, "rb") as img:
       _image = MIMEImage(img.read())
       _extension = self.src.split(".")[-1]
-      self.email.attach(img.read(), _image, "image", _extension, self.cid)
+      self.email.attach(
+          item=img.read(),
+          mime=_image,
+          type="image",
+          extension=_extension,
+          cid=self.cid
+      )
       return f"<img src=\"cid:{self.cid}\" style=\"{parse_style(_style)}\" alt=\"{self.alt}\" />"
 
   def plain(self) -> str:
@@ -39,7 +45,13 @@ class ImageRaw(Component):
   def html(self, style) -> str:
     _style = {**self.apply_style(style), **self.style}
     _image = MIMEImage(self.image)
-    self.email.attach(self.image, _image, "image", self.type, self.cid)
+    self.email.attach(
+        item=self.image,
+        mime=_image,
+        type="image",
+        extension=self.type,
+        cid=self.cid
+    )
     return f"<img src=\"cid:{self.cid}\" style=\"{parse_style(_style)}\" alt=\"{self.alt}\" />"
 
   def plain(self) -> str:
@@ -62,7 +74,13 @@ class Figure(Component):
     _style = {**self.apply_style(style), **self.style}
     _image = fig_bytes(self.figure, **self.kwargs)
     _mime_image = MIMEImage(_image)
-    self.email.attach(_image, _mime_image, "image", "png", self.alt)
+    self.email.attach(
+        item=_image,
+        mime=_mime_image,
+        type="image",
+        extension="png",
+        cid=self.alt
+    )
     return f"<img src=\"cid:{self.alt}\" style=\"{parse_style(_style)}\" alt=\"{self.alt}\" />"
 
   def plain(self) -> str:

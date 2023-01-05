@@ -3,9 +3,12 @@ from .utils import const, parse_style, parse_text
 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 from email.message import EmailMessage
 from email.utils import make_msgid
+
 from copy import deepcopy
+from warnings import warn
 
 
 class EMail:
@@ -46,13 +49,16 @@ class EMail:
     self.style = {**default_style, **style}
     self.attachments = []
 
-  def attach(self, item, mime, type, extension, cid=None):
+  def attach(self, item, type, extension, cid=None, mime=None):
     _uuid = str(hash(item))
     if cid is None:
       cid = make_msgid()[1:-1]
     for attachment in self.attachments:
       if attachment["uuid"] == _uuid:
         return
+
+    if mime is None:
+      mime = MIMEApplication(item)
 
     _attachment = {
         "content": item,
@@ -104,6 +110,10 @@ class EMail:
       _attachment.add_header('Content-Disposition',
                              "attachment", filename=attachment['cid'])
       _mime_mail.attach(_attachment)
+    warn(
+        "This function is deprecated and may be removed in a future update.",
+        DeprecationWarning
+    )
     return _mime_mail
 
   def as_string(self):

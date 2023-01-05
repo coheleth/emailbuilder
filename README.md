@@ -15,12 +15,11 @@
       - [Receiver](#receiver)
       - [Style](#style)
     - [Methods](#methods)
-      - [email.append(component)](#emailappendcomponent)
-      - [email.attach(item, mime, type, extension, cid)](#emailattachitem-mime-type-extension-cid)
+      - [email.append()](#emailappend)
+      - [email.attach()](#emailattach)
       - [email.html()](#emailhtml)
       - [email.plain() (W.I.P.)](#emailplain-wip)
       - [email.message()](#emailmessage)
-      - [email.mime() (W.I.P.)](#emailmime-wip)
   - [Components](#components)
     - [Basic Elements](#basic-elements)
       - [Header](#header)
@@ -118,30 +117,52 @@ A dictionary containing the basic style rules for the e-mail.
 
 ### Methods
 
-#### email.append(component)
+#### email.append()
+
+```python
+email.append(component)
+```
 
 Appends a component to the end of the e-mail
 
-#### email.attach(item, mime, type, extension, cid)
+#### email.attach()
+
+```python
+with open("file.png", "rb") as f:
+  email.attach(
+      item = f.read(),
+      type = "image",
+      extension = "png",
+      cid = "my_image",
+      mime = MIMEImage(f.read()) # Optional
+  )
+```
 
 Adds an attachment to the e-mail.
 
 #### email.html()
 
+```python
+print(email.html())
+```
+
 Returns the e-mail as HTML.
 
 #### email.plain() (W.I.P.)
+
+```python
+print(email.plain())
+```
 
 Returns the e-mail as plain text.
 
 #### email.message()
 
+```python
+s.send_message(email.message())
+```
+
 Returns the e-mail as a `EmailMessage` object.
-
-#### email.mime() (W.I.P.)
-
-Returns the e-mail as a `MIMEMultipart` object, for legacy purposes.
-(May be deprecated in the future.)
 
 ---
 
