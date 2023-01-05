@@ -7,7 +7,6 @@ class Header(Component):
     super().__init__(style, email)
     self.content = content
     self.keys.extend(["header"])
-    print(issubclass(type(self), Header))
 
   def html(self, style) -> str:
     _style = {**self.apply_style(style), **self.style}
