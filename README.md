@@ -2,25 +2,25 @@
 
 > Simple HTML e-mail template builder python library. Allows for embedded images and matplotlib charts.
 
-## Table of Contens
+## Table of Contents
 
 - [EMailBuilder](#emailbuilder)
-  - [Table of Contens](#table-of-contens)
+  - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [The `EMail` Class/Object](#the-email-classobject)
+  - [The EMail Class/Object](#the-email-classobject)
     - [Attributes](#attributes)
-      - [`Subject`](#subject)
-      - [`Sender`](#sender)
-      - [`Receiver`](#receiver)
-      - [`Style`](#style)
+      - [Subject](#subject)
+      - [Sender](#sender)
+      - [Receiver](#receiver)
+      - [Style](#style)
     - [Methods](#methods)
-      - [`email.append(component)`](#emailappendcomponent)
-      - [`email.attach(item, mime, type, extension, cid)`](#emailattachitem-mime-type-extension-cid)
-      - [`email.html()`](#emailhtml)
-      - [`email.plain()` (W.I.P.)](#emailplain-wip)
-      - [`email.message()`](#emailmessage)
-      - [`email.mime()` (W.I.P.)](#emailmime-wip)
+      - [email.append(component)](#emailappendcomponent)
+      - [email.attach(item, mime, type, extension, cid)](#emailattachitem-mime-type-extension-cid)
+      - [email.html()](#emailhtml)
+      - [email.plain() (W.I.P.)](#emailplain-wip)
+      - [email.message()](#emailmessage)
+      - [email.mime() (W.I.P.)](#emailmime-wip)
   - [Components](#components)
     - [Basic Elements](#basic-elements)
       - [Header](#header)
@@ -33,8 +33,6 @@
       - [Container](#container)
   - [To-Do](#to-do)
 
-&nbsp;
-
 ---
 
 ## Installation
@@ -44,8 +42,6 @@ You can install it with pip:
 ```bash
 pip install emailbuilder
 ```
-
-&nbsp;
 
 ---
 
@@ -95,85 +91,57 @@ s.send_message(email.message())
 s.quit()
 ```
 
-&nbsp;
-
 ---
 
-## The `EMail` Class/Object
+## The EMail Class/Object
 
 This object is used for setting the information relating to the e-mail, and provides methods to render the e-mail contents.
 
-&nbsp;
-
 ### Attributes
 
-&nbsp;
-
-#### `Subject`
+#### Subject
 
 The e-mail's subject, as a string
 
-&nbsp;
-
-#### `Sender`
+#### Sender
 
 The sender's e-mail, as a string
 
-&nbsp;
-
-#### `Receiver`
+#### Receiver
 
 The receiver(s)'s e-mail(s), as either a string or a list
 
-&nbsp;
-
-#### `Style`
+#### Style
 
 A dictionary containing the basic style rules for the e-mail.
 (More information concerning styling to be added)
 
-&nbsp;
-
 ### Methods
 
-&nbsp;
-
-#### `email.append(component)`
+#### email.append(component)
 
 Appends a component to the end of the e-mail
 
-&nbsp;
-
-#### `email.attach(item, mime, type, extension, cid)`
+#### email.attach(item, mime, type, extension, cid)
 
 Adds an attachment to the e-mail.
 
-&nbsp;
-
-#### `email.html()`
+#### email.html()
 
 Returns the e-mail as HTML.
 
-&nbsp;
-
-#### `email.plain()` (W.I.P.)
+#### email.plain() (W.I.P.)
 
 Returns the e-mail as plain text.
 
-&nbsp;
-
-#### `email.message()`
+#### email.message()
 
 Returns the e-mail as a `EmailMessage` object.
 
-&nbsp;
-
-#### `email.mime()` (W.I.P.)
+#### email.mime() (W.I.P.)
 
 Returns the e-mail as a `MIMEMultipart` object, for legacy purposes.
 (May be deprecated in the future.)
-
-&nbsp;
 
 ---
 
@@ -181,11 +149,7 @@ Returns the e-mail as a `MIMEMultipart` object, for legacy purposes.
 
 Below are the included components in the emailbuilder library.
 
-&nbsp;
-
 ### Basic Elements
-
-&nbsp;
 
 #### Header
 
@@ -198,8 +162,6 @@ eb.Header(
 
 An `<h1>` element, with the text from the `content` parameter.
 
-&nbsp;
-
 #### Paragraph
 
 ```python
@@ -211,11 +173,7 @@ eb.Paragraph(
 
 A single paragraph, with the text from the `content` parameter.
 
-&nbsp;
-
 ### Embedabbles
-
-&nbsp;
 
 #### Image
 
@@ -229,8 +187,6 @@ eb.Image(
 ```
 
 An embedded image, loaded from the `src` path. Alternative text, used for text-only e-mails is passed through the `alt` parameter.
-
-&nbsp;
 
 #### ImageRaw
 
@@ -246,8 +202,6 @@ eb.ImageRaw(
 
 An embedded image, loaded as bytes from the `image` parameter. An image format must be provided through the `extension` parameter.
 
-&nbsp;
-
 #### Figure
 
 ```python
@@ -261,11 +215,7 @@ eb.Figure(
 
 An embedded MatPlotLib figure. Custom arguments for the `savefig` function can be passed through the `kwargs` parameter.
 
-&nbsp;
-
 ### Containers
-
-&nbsp;
 
 #### Container
 
@@ -276,8 +226,6 @@ eb.Container(
 ```
 
 A `<div>` element. Items can be appended with the `append(item)` method, just like with the `EMail` object.
-
-&nbsp;
 
 ---
 
