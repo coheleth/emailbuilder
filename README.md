@@ -36,10 +36,17 @@
 
 ## Installation
 
-You can install it with pip:
+You can install the latest release with pip:
 
 ```bash
 pip install emailbuilder
+```
+
+Or build and install the development version yourself:
+
+```bash
+git clone https://github.com/coheleth/emailbuilder &&\
+pip install ./emailbuilder
 ```
 
 ---
@@ -253,6 +260,7 @@ A `<div>` element. Items can be appended with the `append(item)` method, just li
 ## To-Do
 
 - [x] Write basic usage guide
-- [ ] Add table components
+- [ ] Add table component
+- [ ] Add win32com.client outlook support
 - [ ] Document `style` argument
 - [ ] Improve plain text function

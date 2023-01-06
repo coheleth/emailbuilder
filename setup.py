@@ -5,7 +5,7 @@ setup(
     name='emailbuilder',
     packages=find_packages(exclude=['test']),
     python_requires='>=3.7',
-    version='0.1.1',
+    version='0.1.2',
     description='Simple HTML e-mail generator',
     long_description_content_type="text/markdown",
     long_description=README,
