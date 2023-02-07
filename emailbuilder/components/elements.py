@@ -1,10 +1,19 @@
 from .base import Component
 from ..utils import const, parse_style, parse_text
+from typing import Optional
 
 
 class Header(Component):
-  def __init__(self, content: str, style=None, email=None) -> None:
-    super().__init__(style, email)
+  """
+  A level 1 header element
+  <h1 />
+
+  :param content: Text content
+  :param style: Custom style rules
+  """
+
+  def __init__(self, content: str, style: Optional[dict] = None) -> None:
+    super().__init__(style)
     self.content = content
     self.keys.extend(["header"])
 
@@ -17,8 +26,16 @@ class Header(Component):
 
 
 class Paragraph(Component):
-  def __init__(self, content: str, style=None, email=None) -> None:
-    super().__init__(style, email)
+  """
+  A paragraph element
+  <p />
+
+  :param content: Text content
+  :param style: Custom style rules
+  """
+
+  def __init__(self, content: str, style: Optional[dict] = None) -> None:
+    super().__init__(style)
     self.content = content
     self.keys.extend(["paragraph"])
 

@@ -1,15 +1,26 @@
 from ..utils import const, parse_style
+from typing import Any, Optional
 
 
 class Component:
-  def __init__(self, style=None, email=None) -> None:
+  """
+  Base component class
+
+  :param style: Custom style rules
+  """
+
+  def __init__(self, style: Optional[dict] = None) -> None:
     if style is None:
       style = {}
     self.style = style
     self.keys = ["global"]
-    self.email = email
+    self.email = None
 
   def apply_style(self, style: dict) -> dict:
+    """
+    Concatenates the component's inherited
+    style rules with its custom ones
+    """
     _applied_style = {}
 
     for key, value in style.items():
@@ -20,33 +31,71 @@ class Component:
     return _applied_style
 
   def html(self, style) -> str:
+    """
+    Renders the HTML code for the component
+
+    :param style : The component's inherited style rules
+
+    :return: The HTML code for the component
+    """
     _style = style
     return ""
 
   def plain(self) -> str:
+    """
+    Gets the component as plain text
+
+    :return: The component as plain text
+    """
     return ""
 
 
 class Container(Component):
-  def __init__(self, style=None, email=None) -> None:
-    super().__init__(style, email)
+  """
+  Base container component class
+
+  :param style: Custom style rules
+  """
+
+  def __init__(self, style=None) -> None:
+    super().__init__(style)
     self.children = []
     self.before = "<div style={style}>"
     self.after = "</div>"
     self.keys.extend(["container"])
     self.indent = ""
 
-  def append(self, item) -> None:
+  def append(self, item: str | Component) -> None:
+    """
+    Appends a child component to the container
+
+    :param item: Component or text to append
+    """
     self.children.append(item)
 
-  def render_child(self, child, style) -> str:
+  def render_child(self, child: Any, style: dict) -> str:
+    """
+    Renders a child component to HTML
+
+    :param child: Component to render
+    :param style: The style rules the child will inherit
+
+    :return: The rendered HTML
+    """
     if issubclass(type(child), Component):
       child.email = self.email
       return child.html(style)
     else:
       return f"{str(child)}<br/>"
 
-  def render_children(self, style) -> str:
+  def render_children(self, style: dict) -> str:
+    """
+    Renders the container's children to HTML
+
+    :param style: The style rules the child components will inherit
+
+    :return: The rendered HTML
+    """
     _style = {**self.apply_style(style), **self.style}
     _append_style = {}
     for key in self.keys:
@@ -66,14 +115,6 @@ class Container(Component):
     return _html
 
   def html(self, style) -> str:
-    """
-    Returns the HTML code for the component
-
-    Parameters
-    ----------
-    style : dict
-      A dictionary containing the component's inherited style
-    """
     _style = {**self.apply_style(style), **self.style}
     return f"<div style=\"{parse_style(_style)}\">{self.render_children(style)}</div>"
 

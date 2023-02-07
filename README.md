@@ -260,7 +260,8 @@ A `<div>` element. Items can be appended with the `append(item)` method, just li
 ## To-Do
 
 - [x] Write basic usage guide
+- [x] Add win32com.client outlook support
+- [x] Improve classes and functions documentation
 - [ ] Add table component
-- [ ] Add win32com.client outlook support
 - [ ] Document `style` argument
 - [ ] Improve plain text function

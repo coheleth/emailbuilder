@@ -1,19 +1,27 @@
 from .base import Component, Container
 from ..utils import const, parse_style
+from typing import Any, Optional
 
 
 class OrderedList(Container):
-  def __init__(self, style=None, email=None) -> None:
-    super().__init__(style, email)
+  """
+  An ordered list element
+  <OL />
+
+  :param style: Custom style rules
+  """
+
+  def __init__(self, style: Optional[dict] = None) -> None:
+    super().__init__(style)
     self.order_prefix = ""
 
-  def render_child(self, child, style) -> str:
+  def render_child(self, child: Any, style: dict) -> str:
     if issubclass(type(child), Component):
       return f"<li>{child.html(style)}</li>"
     else:
       return f"<li>{str(child)}</li>"
 
-  def html(self, style) -> str:
+  def html(self, style: dict) -> str:
     _style = {**self.apply_style(style), **self.style}
     return f"<ol style=\"{parse_style(_style)}\">{self.render_children(style)}</ol>"
 
@@ -37,17 +45,25 @@ class OrderedList(Container):
 
 
 class UnorderedList(Container):
-  def __init__(self, decorator="*", style=None, email=None) -> None:
-    super().__init__(style, email)
+
+  """
+  An unordered list element
+  <UL />
+
+  :param style: Custom style rules
+  """
+
+  def __init__(self, decorator: str = "*", style: Optional[dict] = None) -> None:
+    super().__init__(style)
     self.decorator = decorator + " "
 
-  def render_child(self, child, style) -> str:
+  def render_child(self, child: Any, style: dict) -> str:
     if issubclass(type(child), Component):
       return f"<li>{child.html(style)}</li>"
     else:
       return f"<li>{str(child)}</li>"
 
-  def html(self, style) -> str:
+  def html(self, style: dict) -> str:
     _style = {**self.apply_style(style), **self.style}
     return f"<ul style=\"{parse_style(_style)}\">{self.render_children(style)}</ul>"
 
@@ -66,4 +82,41 @@ class UnorderedList(Container):
         _plain += _tab + self.decorator + child.plain() + "\n"
       else:
         _plain += _tab + self.decorator + str(child) + "\n"
+    return _plain
+
+
+class Table(Container):
+
+  """
+  A table element (W.I.P.)
+  <TABLE />
+
+  :param style: Custom style rules
+  """
+
+  def render_child(self, child: Any, style: dict) -> str:
+    if issubclass(type(child), Component):
+      return child.html(style)
+    else:
+      return str(child)
+
+  def html(self, style: dict) -> str:
+    _style = {**self.apply_style(style), **self.style}
+    return f"<table style=\"{parse_style(_style)}\">{self.render_children(style)}</table>"
+
+  def plain(self) -> str:
+    _tab = self.indent + ' ' * const["tab_size"]
+    _plain = ""
+    for i, child in enumerate(self.children):
+      if issubclass(type(child), UnorderedList):
+        child.indent = _tab
+        _plain += child.plain()
+      elif issubclass(type(child), Container):
+        child.indent = _tab
+        _plain += _tab + \
+            child.plain()[len(_tab):]
+      elif issubclass(type(child), Component):
+        _plain += _tab + child.plain() + "\n"
+      else:
+        _plain += _tab + str(child) + "\n"
     return _plain

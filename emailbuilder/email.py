@@ -1,22 +1,27 @@
 from .components import Component
 from .utils import const, parse_style, parse_text
 
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.message import EmailMessage
 from email.utils import make_msgid
 
 from copy import deepcopy
-from warnings import warn
-from typing import Any
+from typing import Any, Optional
 
 import os
 import tempfile
 
 
 class EMail:
-  def __init__(self, subject: str = "", sender: str = "", receiver=None, style=None):
+  def __init__(self, subject: str = "", sender: str = "", receiver: Optional[str | list] = None, style: Optional[dict] = None) -> None:
+    """
+    E-Mail Object
+
+    :param subject: E-Mail subject
+    :param sender: Sender's address
+    :param receiver: Receiver(s)'s address(es)
+    :param style: Custom style rules
+    """
     if style is None:
       style = {}
 
@@ -53,7 +58,16 @@ class EMail:
     self.style = {**default_style, **style}
     self.attachments = []
 
-  def attach(self, item, type, extension, cid=None, mime=None):
+  def attach(self, item: Any, type: str, extension: str, cid: Optional[str] = None, mime: Optional[Any] = None) -> None:
+    """
+    Add attachment
+
+    :param item: Item to be attached
+    :param type: Attachment's mime tipe
+    :param extension: Attachment's file extension
+    :param cid: Attachment's content id
+    :param mime:  Attachment as MIME object
+    """
     _uuid = str(hash(item))
     if cid is None:
       cid = make_msgid()[1:-1]
@@ -74,10 +88,20 @@ class EMail:
     }
     self.attachments.append(_attachment)
 
-  def append(self, item):
+  def append(self, item: Component) -> None:
+    """
+    Append component
+
+    :param item: Component to append
+    """
     self.items.append(item)
 
   def html(self) -> str:
+    """
+    Get the e-mail's body as HTML
+
+    :return: String containing e-mail's body as HTML
+    """
     self.attachments = []
     _html = ""
     for item in self.items:
@@ -89,6 +113,11 @@ class EMail:
     return _html
 
   def plain(self) -> str:
+    """
+    Get the e-mail's content as plain-text (W.I.P.)
+
+    :return: String containing e-mail's content
+    """
     _plain = ""
     for item in self.items:
       if issubclass(type(item), Component):
@@ -97,30 +126,12 @@ class EMail:
         _plain += f"{str(item)}\n"
     return _plain
 
-  def mime(self):
-    _mime_mail = MIMEMultipart('related')
-    _email_content = MIMEMultipart('alternative')
-    _email_content["Subject"] = self.subject
-    _email_content["From"] = self.sender
-    _email_content["To"] = self.receiver
-    _plain_mail = MIMEText(self.plain(), "plain")
-    _html_mail = MIMEText(self.html(), "html")
-    _email_content.attach(_plain_mail)
-    _email_content.attach(_html_mail)
-    _mime_mail.attach(_email_content)
-    for attachment in self.attachments:
-      _attachment = attachment["mime"]
-      _attachment.add_header('Content-ID', f"<{attachment['cid']}>")
-      _attachment.add_header('Content-Disposition',
-                             "attachment", filename=attachment['cid'])
-      _mime_mail.attach(_attachment)
-    warn(
-        "This function is deprecated and may be removed in a future update.",
-        DeprecationWarning
-    )
-    return _mime_mail
+  def to_outlook(self) -> Any:
+    """
+    Get the e-mail as a win32com Outlook email object
 
-  def outlook(self) -> Any:
+    :return: win32com Outlook email object, or None
+    """
     try:
       import win32com.client as w32
     except ImportError:
@@ -150,10 +161,12 @@ class EMail:
     else:
       return None
 
-  def as_string(self):
-    return self.mime().as_string()
+  def message(self) -> EmailMessage:
+    """
+    Get the e-mail as an EmailMessage object
 
-  def message(self):
+    :return: The e-mail as an EmailMessage object
+    """
     _msg = EmailMessage()
     _msg["Subject"] = self.subject
     _msg["From"] = self.sender
