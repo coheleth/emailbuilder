@@ -145,7 +145,7 @@ class EMail:
       email.Body = self.plain()
       email.HTMLBody = self.html()
       for att in self.attachments:
-        fd, path = tempfile.mkstemp(suffix=att['extension'])
+        fd, path = tempfile.mkstemp(suffix="." + att['extension'])
         try:
           with os.fdopen(fd, 'wb') as tmp:
             tmp.write(att['content'])
