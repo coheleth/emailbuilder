@@ -113,10 +113,10 @@ class Figure(Component):
           mime=_mime_image,
           type="image",
           extension="png",
-          cid=self.alt
+          cid=str(hash(_image))
       )
 
-    return f"<img src=\"cid:{self.alt}\" style=\"{parse_style(_style)}\" alt=\"{self.alt}\" />"
+    return f"<img src=\"cid:{str(hash(_image))}\" style=\"{parse_style(_style)}\" alt=\"{self.alt}\" />"
 
   def plain(self) -> str:
     return self.alt + "\n"
