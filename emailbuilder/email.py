@@ -112,7 +112,7 @@ class EMail:
       else:
         _html += f"{parse_text(str(item))}<br/>"
     if self.table:
-      return f"<table border=\"none\" cellspacing=\"0\" cellpadding=\"0\">{_html}</table>"
+      return f"<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">{_html}</table>"
     else:
       return _html
 
