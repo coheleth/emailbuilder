@@ -39,7 +39,7 @@ def parse_text(text: str) -> str:
 
 def fig_bytes(fig, **kwargs):
   buf = io.BytesIO()
-  fig.savefig(fname=buf, **kwargs)
+  fig.savefig(fname=buf, format='png', **kwargs)
   buf.seek(0)
   fig_bytes = buf.read()
   return fig_bytes
