@@ -11,7 +11,7 @@ class OrderedList(Container):
   :param style: Custom style rules
   """
 
-  def __init__(self, style: Optional[dict] = None) -> None:
+  def __init__(self, style: Optional[dict] = None, kwargs: Optional[dict] = None) -> None:
     super().__init__(style)
     self.order_prefix = ""
 
@@ -53,9 +53,10 @@ class UnorderedList(Container):
   :param style: Custom style rules
   """
 
-  def __init__(self, decorator: str = "*", style: Optional[dict] = None) -> None:
+  def __init__(self, decorator: str = "*", style: Optional[dict] = None, kwargs: Optional[dict] = None) -> None:
     super().__init__(style)
     self.decorator = decorator + " "
+
 
   def render_child(self, child: Any, style: dict) -> str:
     if issubclass(type(child), Component):
@@ -94,7 +95,7 @@ class Table(Container):
   :param style: Custom style rules
   """
 
-  def render_child(self, child: Any, style: dict) -> str:
+  def render_child(self, child: Any, style: dict, kwargs: Optional[dict] = None) -> str:
     if issubclass(type(child), Component):
       return child.html(style)
     else:

@@ -13,7 +13,7 @@ import tempfile
 
 
 class EMail:
-  def __init__(self, subject: str = "", sender: str = "", receiver: Optional[str | list] = None, style: Optional[dict] = None) -> None:
+  def __init__(self, subject: str = "", sender: str = "", receiver: Optional[str | list] = None, style: Optional[dict] = None, table: bool = False) -> None:
     """
     E-Mail Object
 
@@ -57,6 +57,7 @@ class EMail:
     self.items = []
     self.style = {**default_style, **style}
     self.attachments = []
+    self.table = table
 
   def attach(self, item: Any, type: str, extension: str, cid: Optional[str] = None, mime: Optional[Any] = None) -> None:
     """
@@ -110,7 +111,10 @@ class EMail:
         _html += item.html(deepcopy(self.style))
       else:
         _html += f"{parse_text(str(item))}<br/>"
-    return _html
+    if self.table:
+      return f"<table border=\"none\">{_html}</table>"
+    else:
+      return _html
 
   def plain(self) -> str:
     """

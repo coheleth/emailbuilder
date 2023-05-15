@@ -1,4 +1,4 @@
-from ..utils import const, parse_style
+from ..utils import const, parse_style, parse_properties
 from typing import Any, Optional
 
 
@@ -57,13 +57,14 @@ class Container(Component):
   :param style: Custom style rules
   """
 
-  def __init__(self, style=None) -> None:
+  def __init__(self, style=None, properties: Optional[dict] = {}) -> None:
     super().__init__(style)
     self.children = []
     self.before = "<div style={style}>"
     self.after = "</div>"
     self.keys.extend(["container"])
     self.indent = ""
+    self.properties = properties
 
   def append(self, item: str | Component) -> None:
     """
@@ -116,7 +117,11 @@ class Container(Component):
 
   def html(self, style) -> str:
     _style = {**self.apply_style(style), **self.style}
-    return f"<div style=\"{parse_style(_style)}\">{self.render_children(style)}</div>"
+    _properties = {**self.properties} # type: ignore
+    if self.email.table: # type: ignore
+      return f"<tr><td style=\"{parse_style(_style)}\" {parse_properties(_properties)}>{self.render_children(style)}</td></tr>"
+    else:
+      return f"<div style=\"{parse_style(_style)}\">{self.render_children(style)}</div>"
 
   def plain(self) -> str:
     _tab = self.indent
