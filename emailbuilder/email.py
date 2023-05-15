@@ -1,4 +1,4 @@
-from .Elements import Element
+from .components import Element
 from .utils import const, parse_style, parse_text
 
 from email.mime.application import MIMEApplication
