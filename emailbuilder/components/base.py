@@ -138,7 +138,7 @@ class Container(Component):
         _plain += f"{_tab}{str(child)}\n"
     return _plain
 
-class Custom:
+class Custom(Component):
   def __init__(self, html: str, plain_text: str = "") -> None:
     self.email = None
     self.html_string = html
