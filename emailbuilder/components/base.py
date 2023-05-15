@@ -124,7 +124,13 @@ class Container(Component):
     _style = {**self.apply_style(style), **self.style}
     _properties = {**self.properties}
     if self.email.table: # type: ignore
-      return f"<tr><td style=\"{parse_style(_style)}\" {parse_properties(_properties)}>{self.render_children(style)}</td></tr>"
+      return f"""<tr>
+                    <td style=\"{parse_style(_style)}\" {parse_properties(_properties)}>
+                      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+                        {self.render_children(style)}
+                      </table>
+                    </td>
+                  </tr>"""
     else:
       return f"<div style=\"{parse_style(_style)}\">{self.render_children(style)}</div>"
 
