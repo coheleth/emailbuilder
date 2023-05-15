@@ -141,19 +141,24 @@ class Container(Component):
         _plain += f"{_tab}{str(child)}\n"
     return _plain
 
-class Custom(Element):
-  def __init__(self, html: str, plain_text: str = "") -> None:
+class Custom(Component):
+  def __init__(self, html: str, plain_text: str = "", style: Optional[dict] = None) -> None:
     self.email = None
     self.html_string = html
     self.plain_text = plain_text
+    self.keys = ["global"]
+    if style is None:
+      style = {}
+    self.style = style
 
-  def html(self) -> str:
+  def html(self, style) -> str:
     """
     Renders the HTML code for the component
 
     :return: The HTML code for the component
     """
-    return self.html_string
+    _style = {**self.apply_style(style), **self.style}
+    return f"<div style=\"{parse_style(_style)}\">{self.html_string}</div>"
 
   def plain(self) -> str:
     """
