@@ -2,7 +2,10 @@ from ..utils import const, parse_style, parse_properties, TagStripper
 from typing import Any, Optional
 
 
-class Component:
+class Element:
+  pass
+
+class Component(Element):
   """
   Base component class
 
@@ -138,7 +141,7 @@ class Container(Component):
         _plain += f"{_tab}{str(child)}\n"
     return _plain
 
-class Custom(Component):
+class Custom(Element):
   def __init__(self, html: str, plain_text: str = "") -> None:
     self.email = None
     self.html_string = html

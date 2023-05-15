@@ -1,4 +1,4 @@
-from .components import Component
+from .Elements import Element
 from .utils import const, parse_style, parse_text
 
 from email.mime.application import MIMEApplication
@@ -89,11 +89,11 @@ class EMail:
     }
     self.attachments.append(_attachment)
 
-  def append(self, item: Component) -> None:
+  def append(self, item: Element) -> None:
     """
-    Append component
+    Append Element
 
-    :param item: Component to append
+    :param item: Element to append
     """
     self.items.append(item)
 
@@ -106,7 +106,7 @@ class EMail:
     self.attachments = []
     _html = ""
     for item in self.items:
-      if issubclass(type(item), Component):
+      if issubclass(type(item), Element):
         item.email = self
         _html += item.html(deepcopy(self.style))
       else:
@@ -124,7 +124,7 @@ class EMail:
     """
     _plain = ""
     for item in self.items:
-      if issubclass(type(item), Component):
+      if issubclass(type(item), Element):
         _plain += item.plain()
       else:
         _plain += f"{str(item)}\n"
