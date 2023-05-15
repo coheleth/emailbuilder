@@ -1,4 +1,4 @@
-from ..utils import const, parse_style, parse_properties
+from ..utils import const, parse_style, parse_properties, TagStripper
 from typing import Any, Optional
 
 
@@ -57,13 +57,15 @@ class Container(Component):
   :param style: Custom style rules
   """
 
-  def __init__(self, style=None, properties: Optional[dict] = {}) -> None:
+  def __init__(self, style=None, properties: Optional[dict] = None) -> None:
     super().__init__(style)
     self.children = []
     self.before = "<div style={style}>"
     self.after = "</div>"
     self.keys.extend(["container"])
     self.indent = ""
+    if not properties:
+      properties = {}
     self.properties = properties
 
   def append(self, item: str | Component) -> None:
@@ -117,7 +119,7 @@ class Container(Component):
 
   def html(self, style) -> str:
     _style = {**self.apply_style(style), **self.style}
-    _properties = {**self.properties} # type: ignore
+    _properties = {**self.properties}
     if self.email.table: # type: ignore
       return f"<tr><td style=\"{parse_style(_style)}\" {parse_properties(_properties)}>{self.render_children(style)}</td></tr>"
     else:
@@ -135,3 +137,29 @@ class Container(Component):
       else:
         _plain += f"{_tab}{str(child)}\n"
     return _plain
+
+class Custom:
+  def __init__(self, html: str, plain_text: str = "") -> None:
+    self.email = None
+    self.html_string = html
+    self.plain_text = plain_text
+
+  def html(self) -> str:
+    """
+    Renders the HTML code for the component
+
+    :return: The HTML code for the component
+    """
+    return self.html_string
+
+  def plain(self) -> str:
+    """
+    Gets the component as plain text
+
+    :return: The component as plain text
+    """
+    if self.plain_text == "":
+      s = TagStripper()
+      s.feed(self.html_string)
+      self.plain_text = s.get_data()
+    return self.plain_text

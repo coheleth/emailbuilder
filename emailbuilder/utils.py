@@ -1,5 +1,6 @@
 import re
 import io
+from html.parser import HTMLParser
 
 const = {
     "tab_size": 2
@@ -43,3 +44,18 @@ def fig_bytes(fig, **kwargs):
   buf.seek(0)
   fig_bytes = buf.read()
   return fig_bytes
+
+
+class TagStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs= True
+        self.text = io.StringIO()
+
+    def handle_data(self, d):
+        self.text.write(d)
+
+    def get_data(self):
+        return self.text.getvalue()
