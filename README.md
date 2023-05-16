@@ -12,7 +12,7 @@
     - [Attributes](#attributes)
       - [Subject](#subject)
       - [Sender](#sender)
-      - [Receiver](#receiver)
+      - [Receiver, Copy and Blind Copy](#receiver-copy-and-blind-copy)
       - [Style](#style)
     - [Methods](#methods)
       - [email.append()](#emailappend)
@@ -113,7 +113,7 @@ The e-mail's subject, as a string
 
 The sender's e-mail, as a string
 
-#### Receiver
+#### Receiver, Copy and Blind Copy
 
 The receiver(s)'s e-mail(s), as either a string or a list
 
@@ -262,6 +262,7 @@ A `<div>` element. Items can be appended with the `append(item)` method, just li
 - [x] Write basic usage guide
 - [x] Add win32com.client outlook support
 - [x] Improve classes and functions documentation
+- [x] Add CC and BCC
 - [ ] Add table component
 - [ ] Document `style` argument
 - [ ] Improve plain text function
