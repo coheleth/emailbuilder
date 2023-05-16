@@ -129,7 +129,7 @@ class Container(Component):
           has_child_container = True
       if has_child_container:
         return f"""<tr>
-                      <td>
+                      <td style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
                         <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
                           {self.render_children(style)}
                         </table>
