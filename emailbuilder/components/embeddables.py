@@ -14,8 +14,8 @@ class Image(Component):
   :param style: Custom style rules
   """
 
-  def __init__(self, src: str, alt: str = "", cid: Optional[str] = None, style: Optional[dict] = None) -> None:
-    super().__init__(style)
+  def __init__(self, src: str, alt: str = "", cid: Optional[str] = None, style: Optional[dict] = None, properties: Optional[dict] = None) -> None:
+    super().__init__(style, properties)
     self.alt = alt
     self.src = src
     if cid is None:
@@ -53,8 +53,8 @@ class ImageRaw(Component):
   :param style: Custom style rules
   """
 
-  def __init__(self, image: Any, extension: str, alt: str = "", cid: Optional[str] = None, style: Optional[dict] = None) -> None:
-    super().__init__(style)
+  def __init__(self, image: Any, extension: str, alt: str = "", cid: Optional[str] = None, style: Optional[dict] = None,properties: Optional[dict] = None) -> None:
+    super().__init__(style, properties)
     self.alt = alt
     self.image = image
     self.type = extension
@@ -91,8 +91,8 @@ class Figure(Component):
   :param kwargs: Custom kwargs
   """
 
-  def __init__(self, figure: Any, alt: Optional[str] = None, style: Optional[dict] = None, kwargs: Any = None) -> None:
-    super().__init__(style)
+  def __init__(self, figure: Any, alt: Optional[str] = None, style: Optional[dict] = None, properties: Optional[dict] = None, kwargs: Any = None) -> None:
+    super().__init__(style, properties)
     if alt is None:
       alt = str(hash(figure))
     if kwargs is None:
