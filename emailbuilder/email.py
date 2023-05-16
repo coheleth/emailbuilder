@@ -13,7 +13,16 @@ import tempfile
 
 
 class EMail:
-  def __init__(self, subject: str = "", sender: str = "", receiver: Optional[str | list] = None, style: Optional[dict] = None, table: bool = False) -> None:
+  def __init__(
+      self, 
+      subject: str = "",
+      sender: str = "",
+      receiver: Optional[str | list] = None,
+      copy: Optional[str | list] = None,
+      blind_copy: Optional[str | list] = None,
+      style: Optional[dict] = None,
+      table: bool = False
+    ) -> None:
     """
     E-Mail Object
 
@@ -54,6 +63,8 @@ class EMail:
     self.subject = subject
     self.sender = sender
     self.receiver = receiver
+    self.copy = copy
+    self.blind_copy = blind_copy
     self.items = []
     self.style = {**default_style, **style}
     self.attachments = []
@@ -145,6 +156,8 @@ class EMail:
       o = w32.Dispatch("Outlook.Application")
       email = o.CreateItem(0)
       email.To = self.receiver
+      email.CC = self.copy
+      email.BCC = self.blind_copy
       email.Subject = self.subject
       email.Body = self.plain()
       email.HTMLBody = self.html()
@@ -175,6 +188,8 @@ class EMail:
     _msg["Subject"] = self.subject
     _msg["From"] = self.sender
     _msg["To"] = self.receiver
+    _msg["CC"] = self.copy
+    _msg["BCC"] = self.blind_copy
     _msg.set_content(self.plain())
     _msg.add_alternative(self.html(), subtype="html")
     for att in self.attachments:
@@ -183,7 +198,15 @@ class EMail:
     return _msg
 
 class HTMLEmail():
-  def __init__(self, subject: str = "", sender: str = "", receiver: Optional[str | list] = None, html: str = "") -> None:
+  def __init__(
+      self,
+      subject: str = "",
+      sender: str = "",
+      receiver: Optional[str | list] = None,
+      copy: Optional[str | list] = None,
+      blind_copy: Optional[str | list] = None,
+      html: str = ""
+    ) -> None:
     """
     E-Mail Object
 
@@ -194,6 +217,8 @@ class HTMLEmail():
     self.subject = subject
     self.sender = sender
     self.receiver = receiver
+    self.copy = copy
+    self.blind_copy = blind_copy
     self.attachments = []
     self.html = html
 
@@ -243,6 +268,8 @@ class HTMLEmail():
       o = w32.Dispatch("Outlook.Application")
       email = o.CreateItem(0)
       email.To = self.receiver
+      email.CC = self.copy
+      email.BCC = self.blind_copy
       email.Subject = self.subject
       email.HTMLBody = self.html
       for att in self.attachments:
@@ -272,6 +299,8 @@ class HTMLEmail():
     _msg["Subject"] = self.subject
     _msg["From"] = self.sender
     _msg["To"] = self.receiver
+    _msg["Cc"] = self.copy
+    _msg["Bcc"] = self.blind_copy
     _msg.set_content(self.html, subtype="html")
     for att in self.attachments:
       _msg.add_attachment(att["content"], att["type"],
