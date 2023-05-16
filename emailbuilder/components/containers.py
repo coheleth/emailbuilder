@@ -1,5 +1,5 @@
 from .base import Component, Container
-from ..utils import const, parse_style
+from ..utils import const, parse_style, parse_properties
 from typing import Any, Optional
 
 
@@ -11,8 +11,8 @@ class OrderedList(Container):
   :param style: Custom style rules
   """
 
-  def __init__(self, style: Optional[dict] = None, kwargs: Optional[dict] = None) -> None:
-    super().__init__(style)
+  def __init__(self, style: Optional[dict] = None, properties: Optional[dict] = None, kwargs: Optional[dict] = None) -> None:
+    super().__init__(style, properties)
     self.order_prefix = ""
 
   def render_child(self, child: Any, style: dict) -> str:
@@ -23,7 +23,7 @@ class OrderedList(Container):
 
   def html(self, style: dict) -> str:
     _style = {**self.apply_style(style), **self.style}
-    return f"<ol style=\"{parse_style(_style)}\">{self.render_children(style)}</ol>"
+    return f"<ol style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>{self.render_children(style)}</ol>"
 
   def plain(self) -> str:
     _tab = self.indent + ' ' * const["tab_size"]
@@ -53,8 +53,8 @@ class UnorderedList(Container):
   :param style: Custom style rules
   """
 
-  def __init__(self, decorator: str = "*", style: Optional[dict] = None, kwargs: Optional[dict] = None) -> None:
-    super().__init__(style)
+  def __init__(self, decorator: str = "*", style: Optional[dict] = None, properties: Optional[dict] = None, kwargs: Optional[dict] = None) -> None:
+    super().__init__(style, properties)
     self.decorator = decorator + " "
 
 
@@ -66,7 +66,7 @@ class UnorderedList(Container):
 
   def html(self, style: dict) -> str:
     _style = {**self.apply_style(style), **self.style}
-    return f"<ul style=\"{parse_style(_style)}\">{self.render_children(style)}</ul>"
+    return f"<ul style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>{self.render_children(style)}</ul>"
 
   def plain(self) -> str:
     _tab = self.indent + ' ' * const["tab_size"]
@@ -95,7 +95,7 @@ class Table(Container):
   :param style: Custom style rules
   """
 
-  def render_child(self, child: Any, style: dict, kwargs: Optional[dict] = None) -> str:
+  def render_child(self, child: Any, style: dict,  kwargs: Optional[dict] = None) -> str:
     if issubclass(type(child), Component):
       return child.html(style)
     else:
@@ -103,7 +103,7 @@ class Table(Container):
 
   def html(self, style: dict) -> str:
     _style = {**self.apply_style(style), **self.style}
-    return f"<table style=\"{parse_style(_style)}\">{self.render_children(style)}</table>"
+    return f"<table style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>{self.render_children(style)}</table>"
 
   def plain(self) -> str:
     _tab = self.indent + ' ' * const["tab_size"]

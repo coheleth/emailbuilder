@@ -12,10 +12,13 @@ class Component(Element):
   :param style: Custom style rules
   """
 
-  def __init__(self, style: Optional[dict] = None) -> None:
+  def __init__(self, style: Optional[dict] = None, properties: Optional[dict] = None) -> None:
     if style is None:
       style = {}
+    if properties is None:
+      properties = {}
     self.style = style
+    self.properties = properties
     self.keys = ["global"]
     self.email = None
 
@@ -61,15 +64,12 @@ class Container(Component):
   """
 
   def __init__(self, style=None, properties: Optional[dict] = None) -> None:
-    super().__init__(style)
+    super().__init__(style, properties)
     self.children = []
     self.before = "<div style={style}>"
     self.after = "</div>"
     self.keys.extend(["container"])
     self.indent = ""
-    if not properties:
-      properties = {}
-    self.properties = properties
 
   def append(self, item: str | Component) -> None:
     """
@@ -122,10 +122,9 @@ class Container(Component):
 
   def html(self, style) -> str:
     _style = {**self.apply_style(style), **self.style}
-    _properties = {**self.properties}
     if self.email.table: # type: ignore
       return f"""<tr>
-                    <td style=\"{parse_style(_style)}\" {parse_properties(_properties)}>
+                    <td style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
                       <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
                         {self.render_children(style)}
                       </table>
