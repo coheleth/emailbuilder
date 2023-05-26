@@ -157,10 +157,14 @@ class EMail:
     if w32:
       o = w32.Dispatch("Outlook.Application")
       email = o.CreateItem(0)
-      email.To = self.receiver
-      email.CC = self.copy
-      email.BCC = self.blind_copy
-      email.Subject = self.subject
+      if self.receiver is not None:
+          email.To = self.receiver
+      if self.copy is not None:
+          email.CC = self.copy
+      if self.blind_copy is not None:
+          email.BCC = self.blind_copy
+      if self.subject is not None:
+          email.Subject = self.subject
       email.Body = self.plain()
       email.HTMLBody = self.html()
       for att in self.attachments:
