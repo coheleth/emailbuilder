@@ -122,27 +122,25 @@ class Container(Component):
 
   def html(self, style) -> str:
     _style = {**self.apply_style(style), **self.style}
-    if self.email.table: # type: ignore
-      has_child_container = False
-      for child in self.children:
-        if child is Container:
-          has_child_container = True
-      if has_child_container:
-        return f"""<tr>
-                      <td style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
-                        <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
-                          {self.render_children(style)}
-                        </table>
-                      </td>
-                    </tr>"""
-      else:
-        return f"""<tr>
-                      <td style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
+    # if self.email.table: # type: ignore
+    has_child_container = False
+    for child in self.children:
+      if child is Container:
+        has_child_container = True
+    if has_child_container:
+      return f"""<tr>
+                    <td style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
+                      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
                         {self.render_children(style)}
-                      </td>
-                    </tr>"""
+                      </table>
+                    </td>
+                  </tr>"""
     else:
-      return f"<div style=\"{parse_style(_style)}\">{self.render_children(style)}</div>"
+      return f"""<tr>
+                    <td style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>
+                      {self.render_children(style)}
+                    </td>
+                  </tr>"""
 
   def plain(self) -> str:
     _tab = self.indent
