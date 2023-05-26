@@ -20,7 +20,7 @@ class Image(Component):
     self.src = src
     if cid is None:
 #       cid = src.split("\\")[-1].split("/")[-1]
-        cid = hash(src)
+        cid = str(hash(src))
     self.cid = cid
     self.keys.extend(["image"])
 
