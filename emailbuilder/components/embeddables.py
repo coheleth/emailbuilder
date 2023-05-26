@@ -2,6 +2,7 @@ from .base import Component
 from ..utils import const, parse_style, parse_text, fig_bytes
 from email.mime.image import MIMEImage
 from typing import Any, Optional
+import os
 
 
 class Image(Component):
@@ -28,7 +29,7 @@ class Image(Component):
     _style = {**self.apply_style(style), **self.style}
     with open(self.src, "rb") as img:
       _image = MIMEImage(img.read())
-      _extension = self.src.split(".")[-1]
+      _extension = os.path.basename(src)
       if self.email:
         self.email.attach(
             item=img.read(),
