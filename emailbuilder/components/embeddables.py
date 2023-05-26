@@ -1,8 +1,8 @@
+import os
 from .base import Component
 from ..utils import const, parse_style, parse_text, fig_bytes
 from email.mime.image import MIMEImage
 from typing import Any, Optional
-import os
 
 
 class Image(Component):
@@ -29,14 +29,15 @@ class Image(Component):
     _style = {**self.apply_style(style), **self.style}
     with open(self.src, "rb") as img:
       _image = MIMEImage(img.read())
-      _extension = os.path.basename(src)
+      _extension = os.path.basename(self.src)
       if self.email:
         self.email.attach(
             item=img.read(),
             mime=_image,
             type="image",
             extension=_extension,
-            cid=self.cid
+            cid=self.cid,
+            src=os.path.realpath(img.name)
         )
       return f"<img src=\"cid:{self.cid}\" style=\"{parse_style(_style)}\" alt=\"{self.alt}\" />"
 
