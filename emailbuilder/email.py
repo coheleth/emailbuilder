@@ -71,7 +71,7 @@ class EMail:
     self.style = {**default_style, **style}
     self.attachments = []
 
-  def attach(self, item: Any, type: str, extension: str, cid: Optional[str] = None, mime: Optional[Any] = None) -> None:
+  def attach(self, item: Any, type: str, extension: str, cid: Optional[str] = None, mime: Optional[Any] = None, src: Optional[str] = None) -> None:
     """
     Add attachment
 
@@ -97,7 +97,8 @@ class EMail:
         "cid": cid,
         "type": type,
         "extension": extension,
-        "uuid": _uuid
+        "uuid": _uuid,
+        "src": src
     }
     self.attachments.append(_attachment)
 
@@ -168,18 +169,25 @@ class EMail:
       email.Body = self.plain()
       email.HTMLBody = self.html()
       for att in self.attachments:
-        fd, path = tempfile.mkstemp(suffix="." + att['extension'])
-        try:
-          with os.fdopen(fd, 'wb') as tmp:
-            tmp.write(att['content'])
+        if att['src'] is None:
+          fd, path = tempfile.mkstemp(suffix="." + att['extension'])
+          try:
+            with os.fdopen(fd, 'wb') as tmp:
+              tmp.write(att['content'])
 
-          attachment = email.Attachments.Add(path)
-          attachment.PropertyAccessor.SetProperty(
-              "http://schemas.microsoft.com/mapi/proptag/0x3712001F",
-              att['cid']
-          )
-        finally:
-          os.remove(path)
+            attachment = email.Attachments.Add(path)
+            attachment.PropertyAccessor.SetProperty(
+                "http://schemas.microsoft.com/mapi/proptag/0x3712001F",
+                att['cid']
+            )
+          finally:
+            os.remove(path)
+        else:
+            attachment = email.Attachments.Add(att['src'])
+            attachment.PropertyAccessor.SetProperty(
+                "http://schemas.microsoft.com/mapi/proptag/0x3712001F",
+                att['cid']
+            )
       return email
     else:
       return None
