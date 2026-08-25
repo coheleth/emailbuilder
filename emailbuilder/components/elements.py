@@ -64,7 +64,6 @@ class Table(Component):
     self.rows = []
     self.length = 0
 
-
     for column in self.content.values():
       if isinstance(column, list):
         self.length = max(self.length, len(column))
@@ -82,11 +81,8 @@ class Table(Component):
         else:
           row.append(str(item))
       self.rows.append(row)
+
       
-
-
-
-
   def html(self, style: dict) -> str:
     _style = {**self.apply_style(style), **self.style}
     header_items = []

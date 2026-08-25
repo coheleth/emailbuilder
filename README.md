@@ -1,6 +1,6 @@
 # EMailBuilder
 
-> Simple HTML e-mail template builder python library. Allows for embedded images and matplotlib charts.
+> Simple HTML e-mail template builder python library. Allows for tables and embedded images and matplotlib charts.
 
 ## Table of Contents
 
