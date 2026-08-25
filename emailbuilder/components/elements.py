@@ -45,3 +45,68 @@ class Paragraph(Component):
 
   def plain(self) -> str:
     return f"{self.content}\n"
+
+class Table(Component):
+
+  """
+  A table element (W.I.P.)
+  <TABLE />
+
+  :param style: Custom style rules
+  """
+
+  def __init__(self, content: dict, style: dict | None = None, properties: dict | None = None) -> None:
+    super().__init__(style, properties)
+    self.content = content
+    self.keys.extend(["table"])
+
+    self.columns = self.content.keys()
+    self.rows = []
+    self.length = 0
+
+
+    for column in self.content.values():
+      if isinstance(column, list):
+        self.length = max(self.length, len(column))
+      else:
+        raise TypeError("Table must be made from a dictionary of arrays.")
+
+    for i in range(self.length):
+      row = []
+      for column in self.content.values():
+        item = ""
+        if len(column) > i:
+          item = column[i]
+        if isinstance(item, Component):
+          row.append(item)
+        else:
+          row.append(str(item))
+      self.rows.append(row)
+      
+
+
+
+
+  def html(self, style: dict) -> str:
+    _style = {**self.apply_style(style), **self.style}
+    header_items = []
+    for column in self.columns:
+      header_items.append(f"<th>{column}</th>")
+    header = f"<tr>{"".join(header_items)}</tr>"
+
+    rows = []
+    for row in self.rows:
+      row_items = []
+      for item in row:
+        if isinstance(item, Component):
+          _style = {**self.apply_style(style), **self.style}
+          row_items.append(f"<td>{item.html(style)}</td>")
+        else:
+          row_items.append(f"<td>{item}</td>")
+      rows.append(f"<tr>{"".join(row_items)}</tr>")
+
+    return f"<table style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>{header}{"".join(rows)}</table>"
+
+  def plain(self) -> str:
+    _plain = ""
+    return _plain
