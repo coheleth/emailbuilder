@@ -86,38 +86,3 @@ class UnorderedList(Container):
     return _plain
 
 
-class Table(Container):
-
-  """
-  A table element (W.I.P.)
-  <TABLE />
-
-  :param style: Custom style rules
-  """
-
-  def render_child(self, child: Any, style: dict,  kwargs: Optional[dict] = None) -> str:
-    if issubclass(type(child), Component):
-      return child.html(style)
-    else:
-      return str(child)
-
-  def html(self, style: dict) -> str:
-    _style = {**self.apply_style(style), **self.style}
-    return f"<table style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>{self.render_children(style)}</table>"
-
-  def plain(self) -> str:
-    _tab = self.indent + ' ' * const["tab_size"]
-    _plain = ""
-    for i, child in enumerate(self.children):
-      if issubclass(type(child), UnorderedList):
-        child.indent = _tab
-        _plain += child.plain()
-      elif issubclass(type(child), Container):
-        child.indent = _tab
-        _plain += _tab + \
-            child.plain()[len(_tab):]
-      elif issubclass(type(child), Component):
-        _plain += _tab + child.plain() + "\n"
-      else:
-        _plain += _tab + str(child) + "\n"
-    return _plain

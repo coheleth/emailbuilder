@@ -24,6 +24,7 @@
     - [Basic Elements](#basic-elements)
       - [Header](#header)
       - [Paragraph](#paragraph)
+      - [Table](#table)
     - [Embedabbles](#embedabbles)
       - [Image](#image)
       - [ImageRaw](#imageraw)
@@ -201,6 +202,44 @@ eb.Paragraph(
 
 A single paragraph, with the text from the `content` parameter.
 
+#### Table
+
+```python
+eb.Table(
+  content: dict,
+  style: dict = {}
+)
+```
+
+A simple table, created from a dictionary of arrays, the keys' names being the columns, and the values, the rows.
+
+##### Usage with pandas dataframes
+
+If used with pandas dataframes, convert the dataframe to a dictionary with the default 'dict' orientation, eg.:
+
+```python
+df = pd.DataFrame({
+    'Name': ['Alice', 'Bob'],
+    'Age': [25, 30]
+})
+
+table = pd.to_dict(orient='dict')
+
+email.append(eb.Table(table))
+```
+
+##### Usage with other components
+
+Other components, such as `eb.Header`, can be passed via de dictionary, eg.:
+
+```python
+table = {
+  'Attribute': ['personality', 'voice'],
+  'Alice': ['calm', 'soft'],
+  'Bob': ['nervous', eb.Header('LOUD')]
+}
+```
+
 ### Embedabbles
 
 #### Image
@@ -263,6 +302,6 @@ A `<div>` element. Items can be appended with the `append(item)` method, just li
 - [x] Add win32com.client outlook support
 - [x] Improve classes and functions documentation
 - [x] Add CC and BCC
-- [ ] Add table component
+- [x] Add table component
 - [ ] Document `style` argument
 - [ ] Improve plain text function
