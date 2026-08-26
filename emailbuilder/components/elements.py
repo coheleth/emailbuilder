@@ -24,6 +24,27 @@ class Header(Component):
   def plain(self) -> str:
     return f"# {self.content} #\n\n"
 
+class SubHeader(Component):
+  """
+  A level 2 header element
+  <h2 />
+
+  :param content: Text content
+  :param style: Custom style rules
+  """
+
+  def __init__(self, content: str, style: Optional[dict] = None, properties: Optional[dict] = None) -> None:
+    super().__init__(style, properties)
+    self.content = content
+    self.keys.extend(["subheader"])
+
+  def html(self, style) -> str:
+    _style = {**self.apply_style(style), **self.style}
+    return f"<h2 style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>{self.content}</h2>"
+
+  def plain(self) -> str:
+    return f"## {self.content} ##\n\n"
+
 
 class Paragraph(Component):
   """
@@ -60,7 +81,7 @@ class Table(Component):
     self.content = content
     self.keys.extend(["table"])
 
-    self.columns = self.content.keys()
+    self.column_names = list(self.content.keys())
     self.rows = []
     self.length = 0
 
@@ -86,7 +107,7 @@ class Table(Component):
   def html(self, style: dict) -> str:
     _style = {**self.apply_style(style), **self.style}
     header_items = []
-    for column in self.columns:
+    for column in self.column_names:
       header_items.append(f"<th>{column}</th>")
     header = f"<tr>{"".join(header_items)}</tr>"
 
@@ -104,5 +125,47 @@ class Table(Component):
     return f"<table style=\"{parse_style(_style)}\" {parse_properties(self.properties)}>{header}{"".join(rows)}</table>"
 
   def plain(self) -> str:
-    _plain = ""
-    return _plain
+    _plain = []
+    _rows = []
+    longest_items = []
+
+    for column in range(len(self.column_names)):
+      longest = 0
+      for row in self.rows:
+        item = row[column]
+        length = 0
+        if issubclass(type(item), Component):
+          length = len(item.plain())
+        else:
+          length = len(str(item))
+        
+        if length > longest:
+          longest = length
+      longest_items.append(longest)
+
+    row = []
+    for column in range(len(self.column_names)):
+      row.append(self.column_names[column].ljust(longest_items[column]))
+    _rows.append(row)
+
+    for row in self.rows:
+      plain_row = []
+      for i in range(len(row)):
+        if issubclass(type(item), Component):
+          plain_row.append(row[i].plain().ljust(longest_items[i]))
+        else:
+          plain_row.append(row[i].ljust(longest_items[i]))
+      _rows.append(plain_row)
+
+    print(_rows)
+
+    for row in _rows:
+      _plain.append(f"|{'|'.join(row)}|\n")
+
+
+    _cross = "+"
+    for i in longest_items:
+      _cross += "".ljust(i, "-") + '+'
+    _cross += "\n"
+
+    return f"{_cross}{_cross.join(_plain)}{_cross}\n"

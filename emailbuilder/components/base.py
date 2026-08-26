@@ -184,4 +184,4 @@ class Custom(Component):
       s = TagStripper()
       s.feed(self.html_string)
       self.plain_text = s.get_data()
-    return self.plain_text
+    return self.plain_text + "\n"

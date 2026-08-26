@@ -156,7 +156,7 @@ print(email.html())
 
 Returns the e-mail as HTML.
 
-#### email.plain() (W.I.P.)
+#### email.plain()
 
 ```python
 print(email.plain())
@@ -190,6 +190,17 @@ eb.Header(
 ```
 
 An `<h1>` element, with the text from the `content` parameter.
+
+#### SubHeader
+
+```python
+eb.SubHeader(
+    content: str,
+    style: dict = {}
+)
+```
+
+An `<h2>` element, with the text from the `content` parameter.
 
 #### Paragraph
 
@@ -303,5 +314,5 @@ A `<div>` element. Items can be appended with the `append(item)` method, just li
 - [x] Improve classes and functions documentation
 - [x] Add CC and BCC
 - [x] Add table component
+- [x] Improve plain text function
 - [ ] Document `style` argument
-- [ ] Improve plain text function

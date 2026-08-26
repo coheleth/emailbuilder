@@ -121,7 +121,7 @@ class EMail:
     for item in self.items:
       if issubclass(type(item), Element):
         item.email = self
-        html += item.html(deepcopy(self.style))
+        html += f"<tr><td>{item.html(deepcopy(self.style))}</td></tr>"
       else:
         html += f"{parse_text(str(item))}<br/>"
     root_style = parse_style(self.style["root"])
@@ -140,9 +140,15 @@ class EMail:
 
     :return: String containing e-mail's content
     """
-    s = TagStripper()
-    s.feed(self.html())
-    return s.get_data()
+    # s = TagStripper()
+    # s.feed(self.html())
+    # return s.get_data()
+    plain_text = ""
+    for item in self.items:
+      if issubclass(type(item), Element):
+        plain_text += item.plain()
+
+    return plain_text
 
   def to_outlook(self) -> Any:
     """
