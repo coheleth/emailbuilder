@@ -111,7 +111,6 @@ class Container(Component):
 
     _passable_attrs = ["color", "font-family", "font-size", "font-weight"]
     for attr in _passable_attrs:
-      # print(f"{attr}: {attr in self.apply_style(style).keys()}")
       if attr in _style.keys():
         _combined_style["global"][attr] = _style[attr]
 
@@ -122,7 +121,6 @@ class Container(Component):
 
   def html(self, style) -> str:
     _style = {**self.apply_style(style), **self.style}
-    # if self.email.table: # type: ignore
     has_child_container = False
     for child in self.children:
       if child is Container:

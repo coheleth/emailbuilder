@@ -19,16 +19,13 @@
     - [email.plain()](#emailplain)
     - [email.message()](#emailmessage)
 - [Components](#components)
-  - [Basic Elements](#basic-elements)
-    - [Header](#header)
-    - [Paragraph](#paragraph)
-    - [Table](#table)
-  - [Embedabbles](#embedabbles)
-    - [Image](#image)
-    - [ImageRaw](#imageraw)
-    - [Figure](#figure)
-  - [Containers](#containers)
-    - [Container](#container)
+  - [Header](#header)
+  - [Paragraph](#paragraph)
+  - [Container](#container)
+  - [Table](#table)
+  - [Image](#image)
+  - [ImageRaw](#imageraw)
+  - [Figure](#figure)
 - [To-Do](#to-do)
 
 ---
@@ -119,7 +116,7 @@ The receiver(s)'s e-mail(s), as either a string or a list
 #### Style
 
 A dictionary containing the basic style rules for the e-mail.
-(More information concerning styling to be added)
+`global` applies to all elements, `root` applies to the table element wrapping the emails contents, and `body`, `header`, `subheader`, `paragraph`, `image` and `table` apply to their respective elements.
 
 ### Methods
 
@@ -176,9 +173,7 @@ Returns the e-mail as a `EmailMessage` object.
 
 Below are the included components in the emailbuilder library.
 
-### Basic Elements
-
-#### Header
+### Header
 
 ```python
 eb.Header(
@@ -189,7 +184,7 @@ eb.Header(
 
 An `<h1>` element, with the text from the `content` parameter.
 
-#### SubHeader
+### SubHeader
 
 ```python
 eb.SubHeader(
@@ -200,7 +195,7 @@ eb.SubHeader(
 
 An `<h2>` element, with the text from the `content` parameter.
 
-#### Paragraph
+### Paragraph
 
 ```python
 eb.Paragraph(
@@ -211,7 +206,17 @@ eb.Paragraph(
 
 A single paragraph, with the text from the `content` parameter.
 
-#### Table
+### Container
+
+```python
+eb.Container(
+    style: dict = {}
+)
+```
+
+A `<div>` element. Items can be appended with the `append(item)` method, just like with the `EMail` object.
+
+### Table
 
 ```python
 eb.Table(
@@ -249,9 +254,7 @@ table = {
 }
 ```
 
-### Embedabbles
-
-#### Image
+### Image
 
 ```python
 eb.Image(
@@ -264,7 +267,7 @@ eb.Image(
 
 An embedded image, loaded from the `src` path. Alternative text, used for text-only e-mails is passed through the `alt` parameter.
 
-#### ImageRaw
+### ImageRaw
 
 ```python
 eb.ImageRaw(
@@ -278,7 +281,7 @@ eb.ImageRaw(
 
 An embedded image, loaded as bytes from the `image` parameter. An image format must be provided through the `extension` parameter.
 
-#### Figure
+### Figure
 
 ```python
 eb.Figure(
@@ -290,27 +293,3 @@ eb.Figure(
 ```
 
 An embedded MatPlotLib figure. Custom arguments for the `savefig` function can be passed through the `kwargs` parameter.
-
-### Containers
-
-#### Container
-
-```python
-eb.Container(
-    style: dict = {}
-)
-```
-
-A `<div>` element. Items can be appended with the `append(item)` method, just like with the `EMail` object.
-
----
-
-## To-Do
-
-- [x] Write basic usage guide
-- [x] Add win32com.client outlook support
-- [x] Improve classes and functions documentation
-- [x] Add CC and BCC
-- [x] Add table component
-- [x] Improve plain text function
-- [ ] Document `style` argument

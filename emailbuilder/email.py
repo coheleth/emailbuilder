@@ -39,10 +39,10 @@ class EMail:
             "font-family": "sans-serif",
             "font-size": "12px"
         },
-        "root": {
+        "body": {
             "background-color": "#FFFFFF"
         },
-        "body": {
+        "root": {
             "background-color": "#FFFFFF"
         },
         "header": {
@@ -127,8 +127,8 @@ class EMail:
     root_style = parse_style(self.style["root"])
     body_style = parse_style(self.style["body"])
     return f"""
-    <body style=\"{root_style}\">
-      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"{body_style}\">
+    <body style=\"{body_style}\">
+      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"{root_style}\">
         {html}
       </table>
     </body>
