@@ -157,8 +157,6 @@ class Table(Component):
           plain_row.append(row[i].ljust(longest_items[i]))
       _rows.append(plain_row)
 
-    print(_rows)
-
     for row in _rows:
       _plain.append(f"|{'|'.join(row)}|\n")
 
