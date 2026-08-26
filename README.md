@@ -4,34 +4,32 @@
 
 ## Table of Contents
 
-- [EMailBuilder](#emailbuilder)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [The EMail Class/Object](#the-email-classobject)
-    - [Attributes](#attributes)
-      - [Subject](#subject)
-      - [Sender](#sender)
-      - [Receiver, Copy and Blind Copy](#receiver-copy-and-blind-copy)
-      - [Style](#style)
-    - [Methods](#methods)
-      - [email.append()](#emailappend)
-      - [email.attach()](#emailattach)
-      - [email.html()](#emailhtml)
-      - [email.plain() (W.I.P.)](#emailplain-wip)
-      - [email.message()](#emailmessage)
-  - [Components](#components)
-    - [Basic Elements](#basic-elements)
-      - [Header](#header)
-      - [Paragraph](#paragraph)
-      - [Table](#table)
-    - [Embedabbles](#embedabbles)
-      - [Image](#image)
-      - [ImageRaw](#imageraw)
-      - [Figure](#figure)
-    - [Containers](#containers)
-      - [Container](#container)
-  - [To-Do](#to-do)
+- [Installation](#installation)
+- [Usage](#usage)
+- [The EMail Class/Object](#the-email-classobject)
+  - [Attributes](#attributes)
+    - [Subject](#subject)
+    - [Sender](#sender)
+    - [Receiver, Copy and Blind Copy](#receiver-copy-and-blind-copy)
+    - [Style](#style)
+  - [Methods](#methods)
+    - [email.append()](#emailappend)
+    - [email.attach()](#emailattach)
+    - [email.html()](#emailhtml)
+    - [email.plain()](#emailplain)
+    - [email.message()](#emailmessage)
+- [Components](#components)
+  - [Basic Elements](#basic-elements)
+    - [Header](#header)
+    - [Paragraph](#paragraph)
+    - [Table](#table)
+  - [Embedabbles](#embedabbles)
+    - [Image](#image)
+    - [ImageRaw](#imageraw)
+    - [Figure](#figure)
+  - [Containers](#containers)
+    - [Container](#container)
+- [To-Do](#to-do)
 
 ---
 
@@ -102,7 +100,7 @@ s.quit()
 
 ## The EMail Class/Object
 
-This object is used for setting the information relating to the e-mail, and provides methods to render the e-mail contents.
+This object is used for setting the e-mail information, and provides methods to render the e-mail contents.
 
 ### Attributes
 
