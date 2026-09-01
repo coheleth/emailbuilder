@@ -34,6 +34,11 @@ jobs:
         pip install build
     - name: Build package
       run: python -m build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
       
   deploy:
     needs: build
@@ -45,5 +50,11 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@v1.14.2
+      
