@@ -29,8 +29,3 @@ jobs:
         pip install build
     - name: Build package
       run: python -m build
-  trigger-deploy:
-    needs: build
-    uses: ./.github/workflows/python-publish.yml
-    with:
-      environment: 'pypi'
