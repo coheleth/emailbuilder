@@ -31,6 +31,6 @@ jobs:
       run: python -m build
   trigger-deploy:
     needs: build
-    uses: ./.github/workflows/python-deploy.yml
+    uses: ./.github/workflows/python-publish.yml
     with:
       environment: 'pypi'
