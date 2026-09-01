@@ -26,4 +26,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@release/v1.12.3
